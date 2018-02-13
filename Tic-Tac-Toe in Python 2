@@ -1,0 +1,75 @@
+import random
+game = True
+from IPython.display import clear_output
+clear_output(game == True)
+from __future__ import print_function
+still_going = True
+gameboard = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+randomly = ('X', 'O')
+rand = random.choice(randomly)
+dict_player = {'X': [], 'O': []}
+win_comb = [['1','2','3'], ['4','5','6'], ['7','8','9'],['1','4','7'], ['2','5','8'], ['3','6','9'],['1','5','9'],['3','5','7']]
+def draw():
+    print('', gameboard[1], '|', gameboard[2], '|', gameboard[3])
+    print('-----------')
+    print('', gameboard[4], '|', gameboard[5], '|', gameboard[6])
+    print('-----------')
+    print('', gameboard[7], '|', gameboard[8], '|', gameboard[9])
+def win_combo(win_comb, dict_player):
+    result=''
+    for i in win_comb:
+        if set(i) <= set(dict_player['X']):
+            result='X'
+            break
+        elif set(i) <= set(dict_player['O']):
+            result='O'
+            break
+        else:
+            continue
+    return result
+def clear_lists(gameboard):
+    dict_player['X'].clear()
+    dict_player['O'].clear()
+    gameboard.clear()
+    gameboard += [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+def choose_player():
+    print('Player that uses ' + str(rand) + ' goes first')
+while still_going == True:
+    new_game = input('Do you want to start a new game(y/n): ')
+    if new_game == 'y':
+            print('Game')
+            continue_game = input('Press any key to continue: ') 
+            if(len(continue_game) >= 0):
+                choose_player()
+                clear_lists(gameboard)
+                while game == True:
+                        draw()
+                        print(dict_player)
+                        num = input(rand + ' player please enter a number: ')
+                        if num in dict_player['X'] or num in dict_player['O']:
+            
+                            print('This number is already taken, try another one!')
+                            num = input(rand + ' player please enter a number: ')
+                            
+                        if num not in dict_player['X'] or num not in dict_player['O']:
+                            dict_player[rand].append(num)
+                            gameboard[int(num)] = str(rand)
+                            result = win_combo(win_comb, dict_player)
+                            if result == 'X':
+                                print('X player won!')
+                                break
+                            elif result == 'O':
+                                print('O player won!')
+                                break
+                            if len(dict_player['X']) == 5 or len(dict_player['X']) == 5:
+                                print("It is a draw")
+                                break
+                            if rand == 'X':
+                                rand = 'O'    
+               
+                            else:
+                                rand = 'X'
+            
+    if new_game == 'n':
+        print('Game is over')
+        break 
